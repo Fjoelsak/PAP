@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
 # read csv into a dataframe
-df=pd.read_csv("../data/airline-passengers.csv")
+df=pd.read_csv("../../data/airline-passengers.csv")
 
 # set index instead of months for visualization
 df.set_index('Month', inplace=False)
