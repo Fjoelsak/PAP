@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from matplotlib import pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
@@ -17,9 +18,12 @@ model = ARIMA(values[:], order=(2, 1, 2), seasonal_order=(1, 1, 1, 12))
 res = model.fit()
 
 # Model usage
-p = res.predict(start=2, end=144)
+x = np.arange(143,160)
+p = res.predict(start=x[0], end=x[-1])
+
+print(x.shape, p.shape)
 
 # Plot
-plt.plot(p)
+plt.plot(x,p)
 plt.plot(values)
 plt.show()
