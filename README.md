@@ -26,3 +26,4 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 ## 05-Perceptron and Feed Forward neural networks
 
 - 51-ML_Perzeptron.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/05-Perceptron_FFNN/51-ML_Perceptron.ipynb)
+- 52-ML_FFNN.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/05-Perceptron_FFNN/52-ML_FFNN.ipynb)
