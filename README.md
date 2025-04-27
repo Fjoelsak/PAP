@@ -8,7 +8,7 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 
 ## 01-Concerning data
 
-- 11-Imputation.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/11-Outliers.ipynb)
+- 11-Imputation.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/11-Imputation.ipynb)
 - 12-Outliers.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/12-Outliers.ipynb)
 - 13-CategorialVariables_Splitting_Scaling.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/13-CategoricalVariables_Splitting_Scaling.ipynb)
 - 14-Patientdata_Assignment.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/14-Patientdata_Assignment.ipynb)
