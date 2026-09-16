@@ -4,6 +4,7 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 
 ## 00-Python intro
 - 00-basics-python.ipynb  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/00-intro/00-basics-python.ipynb)
+- 01-numpy-matplotlib-pandas.ipynb  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/00-intro/01-numpy-matplotlib-pandas.ipynb)
 
 
 ## 01-Concerning data
