@@ -1,0 +1,18 @@
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated artifacts
+src/03-classification/Log_ROC.png
+
+# Solution notebooks (never commit)
+*_solution.ipynb
+*-solution.ipynb
