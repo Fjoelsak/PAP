@@ -11,7 +11,7 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 
 - 11-Imputation.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/11-Imputation.ipynb)
 - 12-Outliers.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/12-Outliers.ipynb)
-- 13-CategorialVariables_Splitting_Scaling.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/13-CategoricalVariables_Splitting_Scaling.ipynb)
+- 13-CategoricalVariables_Splitting_Scaling.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/13-CategoricalVariables_Splitting_Scaling.ipynb)
 - 14-Patientdata_Assignment.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/01-concerning%20data/14-Patientdata_Assignment.ipynb)
 
 ## 02-Regression
@@ -32,5 +32,5 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 
 ## 05-Perceptron and Feed Forward neural networks
 
-- 51-ML_Perzeptron.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/05-Perceptron_FFNN/51-ML_Perceptron.ipynb)
+- 51-ML_Perceptron.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/05-Perceptron_FFNN/51-ML_Perceptron.ipynb)
 - 52-ML_FFNN.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/05-Perceptron_FFNN/52-ML_FFNN.ipynb)
