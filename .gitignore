@@ -16,3 +16,6 @@ src/03-classification/Log_ROC.png
 # Solution notebooks (never commit)
 *_solution.ipynb
 *-solution.ipynb
+
+# Bonus project raw data (too large for the repo)
+bonus/
