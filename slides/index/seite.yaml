@@ -1,0 +1,22 @@
+# Angaben zur Übersichtsseite, die zu keiner einzelnen Vorlesung gehören.
+# Jedes Feld steht in index.html als {{feld}} bereit; neue Felder einfach
+# ergänzen. Die Datei selbst wird nicht veröffentlicht.
+#
+# Innerhalb von {{#vorlesungen}} gilt zuerst das Feld der Vorlesung, sonst
+# das von hier. Ein Feld sollte deshalb nicht wie ein Kartenfeld heißen
+# (link, nummer, titel, beschreibung) — es erschiene auf jeder Karte, der
+# das eigene fehlt.
+
+rubrik: Veranstaltungsunterlagen
+
+# Modulnummer und Studiengang erscheinen im Kopf, sobald sie gesetzt sind.
+modul: WK_1609
+studiengang: Wirtschaftsinformatik B.Sc.
+
+# Ohne Angabe kommen beide aus dem Frontmatter der ersten Vorlesung.
+# veranstaltung: Predictive Analytics
+# dozent: Nicolas Stein
+
+# Erscheint über den Karten, sobald hier ein Text steht.
+# einleitung: >
+#   Foliensätze zur Vorlesung Predictive Analytics an der THM, Campus Friedberg.

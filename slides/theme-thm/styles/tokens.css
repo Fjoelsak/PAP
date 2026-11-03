@@ -1,0 +1,121 @@
+/* ============================================================
+   THM DESIGN TOKENS — Light Mode
+   Übernommen aus dem Claude-Design-System "THM & StudiumPlus"
+   (tokens/colors.css, tokens/typography.css), abgeleitet aus dem
+   THM Corporate-Design-Manual (3. Auflage, 01/2019).
+   ============================================================ */
+
+:root {
+  /* ---- Hauptfarbe 1 · THM Grün (Pantone 368) ---- */
+  --thm-green: #80ba24;
+  --thm-green-900: #3f5c10;
+  --thm-green-800: #527815;
+  --thm-green-700: #65921b;
+  --thm-green-600: #74a71f;
+  --thm-green-500: #80ba24;
+  --thm-green-400: #98c94e;
+  --thm-green-300: #b3d77d;
+  --thm-green-200: #d2e7b3;
+  --thm-green-100: #e9f3d6;
+  --thm-green-50:  #f4f9ea;
+
+  /* ---- Hauptfarbe 2 · THM Grau (Pantone 7546) ---- */
+  --thm-grey: #4a5c66;
+  --thm-grey-900: #222c31;
+  --thm-grey-800: #303d44;
+  --thm-grey-700: #3c4b53;
+  --thm-grey-600: #4a5c66;
+  --thm-grey-500: #61747e;
+  --thm-grey-400: #84949c;
+  --thm-grey-300: #a9b5bb;
+  --thm-grey-200: #ccd4d8;
+  --thm-grey-100: #e6eaec;
+  --thm-grey-50:  #f3f5f6;
+
+  /* ---- Zusatzfarben ---- */
+  --thm-red:    #9c132e;   /* Pantone 7427 */
+  --thm-yellow: #f4aa00;   /* Pantone 130  */
+  --thm-cyan:   #00b8e4;   /* Pantone 306  */
+  --thm-blue:   #002878;   /* Pantone 280  */
+
+  --white: #ffffff;
+  --black: #1a2226;
+
+  /* ---- Semantische Aliase ---- */
+  --surface-page:   var(--white);
+  --surface-sunken: var(--thm-grey-100);
+  --surface-inverse: var(--thm-grey-600);
+  --surface-brand:  var(--thm-green-500);
+
+  --text-strong: var(--thm-grey-700);
+  --text-body:   var(--thm-grey-600);
+  --text-muted:  var(--thm-grey-400);
+  --text-on-dark: var(--white);
+  --text-accent: var(--thm-green-600);
+
+  --border-subtle:  var(--thm-grey-100);
+  --border-default: var(--thm-grey-200);
+
+  /* ---- Rollen im Vorlesungskontext ----
+     Gelb  = Interaktion (Frage an die Teilnehmer:innen, Moodle-Hinweis)
+     Cyan  = Herkunft (Quellenangabe)
+     Grün  = Betonung im Fließtext, Marker
+     Grau  = Inhaltskarten, Struktur                                     */
+  --role-ask:    var(--thm-yellow);
+  --role-source: var(--thm-cyan);
+  --role-accent: var(--thm-green-500);
+  --role-ask-soft: #fef3da;     /* Gelb-50 aus dem Design-System */
+  --role-source-soft: #e0f6fc;  /* Cyan-50 aus dem Design-System */
+
+  /* ---- Phasen des Projektmodells (Siedersleben) ----
+     Feste Kennfarben aus dem PowerPoint-Original, über alle Foliensätze
+     gleich. Sie liegen bewusst außerhalb der Grün-/Grau-Skala, damit
+     sich die Phasen auf einen Blick unterscheiden.                     */
+  --phase-studie:          var(--thm-grey-600);
+  --phase-spezifikation:   #5fb7a1;
+  --phase-konstruktion:    #3081ac;
+  --phase-implementierung: #e45a35;
+  --phase-integration:     #ffc000;
+  --phase-wartung:         var(--thm-green-500);
+
+  /* ---- Typografie ---- */
+  --font-sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --font-condensed: 'Barlow Semi Condensed', 'Barlow', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-tight: 1.1;
+  --lh-heading: 1.2;
+  --lh-snug: 1.35;
+  --lh-body: 1.5;
+
+  --ls-caps: 0.09em;
+
+  /* ---- Folienraster ----
+     Nach dem Folienaufbau des Design-Systems: großzügiger Seitenrand,
+     Kopf aus Rubrik, Titel und grünem Balken, darunter der Inhalt.
+     Die Fußzeile ist nur noch eine Textzeile; die Layouts halten
+     ihren Innenabstand darüber frei.                              */
+  --slide-pad-x: 3.2rem;
+  --slide-pad-top: 1.55rem;
+  --footer-h: 2.3rem;
+  --slide-pad-bottom: calc(var(--footer-h) + 0.35rem);
+
+  /* ---- Karten und Flächen ---- */
+  --card-bg: var(--thm-grey-50);
+  --card-pad: 0.95rem 1.05rem;
+  --grid-gap: 0.8rem;
+  --radius-icon: 4px;
+
+  /* ---- Dunkle Flächen (Titel-, Abschnitts-, Zitatfolie) ----
+     THM Grau mit feinem Binärraster, wie im Design-System.       */
+  --surface-dark: var(--thm-grey-600);
+  --surface-dark-deep: #434f58;
+  --grid-line-dark: rgba(255, 255, 255, 0.07);
+  --grid-cell: 1.6rem;
+}

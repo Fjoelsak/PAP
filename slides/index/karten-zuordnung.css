@@ -1,0 +1,227 @@
+/*
+  Gestaltung von <karten-zuordnung> (index/karten-zuordnung.js). Farben und
+  Schrift kommen wie in index.css aus den Tokens des Themes.
+*/
+karten-zuordnung { display: block; margin: 1.8rem 0; }
+/* Bis das Element gestartet ist, bleibt sein Rohinhalt unsichtbar */
+karten-zuordnung:not(:defined) > * { display: none; }
+.kz-fehler {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--thm-red);
+  border-radius: var(--radius-icon);
+  color: var(--thm-red);
+}
+
+.kz {
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  line-height: 1.35;
+}
+.kz-titel {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--thm-grey-100);
+  font-weight: 600;
+  color: var(--thm-grey-800);
+}
+
+/* ---- Stapel links, Fächer rechts ---- */
+.kz-flaeche {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.9rem;
+}
+.kz-karten { display: flex; flex-direction: column; gap: 0.4rem; }
+
+/* Der Stapel bleibt beim Blättern durch die Fächer im Blick */
+.kz-stapel {
+  position: sticky;
+  top: 0.75rem;
+  max-height: calc(100vh - 1.5rem);
+  overflow-y: auto;
+  padding: 0.6rem;
+  border: 2px dashed var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+}
+.kz-stapel-kopf {
+  display: block;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  color: var(--thm-grey-500);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.kz-leer { display: none; margin: 0; color: var(--thm-grey-500); font-size: 0.9rem; font-style: italic; }
+.kz-stapel.leer .kz-leer { display: block; }
+
+.kz-faecher { display: flex; flex-direction: column; gap: 0.6rem; }
+.kz-fach {
+  /* Die Farbe des Fachs setzt das Element aus der Beschreibung (`fach <id> <farbe>`) */
+  --kz-farbe: var(--thm-grey-300);
+  border: 2px solid transparent;
+  border-left: 0.4rem solid var(--kz-farbe);
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-50);
+}
+.kz-fach .kz-karten { min-height: 2.2rem; padding: 0 0.5rem 0.5rem; }
+.kz-fach-kopf {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 0;
+  background: none;
+  color: var(--thm-grey-800);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: default;
+}
+/* Ziel beim Ziehen und, solange eine Karte gewählt ist, jedes Fach */
+.kz-fach.ziel, .kz-stapel.ziel { border-color: var(--kz-farbe, var(--thm-green-500)); border-style: solid; background: var(--white); }
+karten-zuordnung.waehlt .kz-fach { cursor: pointer; }
+karten-zuordnung.waehlt :is(.kz-fach-kopf, .kz-stapel-kopf) { cursor: pointer; }
+karten-zuordnung.waehlt .kz-fach:hover { border-color: var(--kz-farbe); background: var(--white); }
+
+/* ---- Karten ---- */
+.kz-karte {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  font-size: 0.92rem;
+  cursor: grab;
+}
+.kz-karte-text {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.3rem 0.45rem 0.6rem;
+  border: 0;
+  background: none;
+  color: var(--thm-grey-800);
+  font: inherit;
+  text-align: left;
+  cursor: inherit;
+  touch-action: manipulation;
+}
+/* Das Fragezeichen an jeder Karte: blass, bis man es anklickt — dann Gelb, »hier sind Sie gefragt« */
+.kz-zweifel {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.35rem 0.35rem 0 0;
+  padding: 0;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  color: var(--thm-grey-400);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.kz-zweifel:hover { border-color: var(--role-ask); color: var(--thm-grey-800); }
+.kz-karte.unsicher .kz-zweifel { border-color: var(--role-ask); background: var(--role-ask); color: var(--thm-grey-800); }
+.kz-karte.unsicher { border-color: var(--role-ask); }
+.kz-karte:hover { border-color: var(--thm-grey-400); }
+.kz-karte.unsicher:hover { border-color: var(--role-ask); }
+:is(.kz-karte-text, .kz-zweifel, .kz-zweifel-weg, .kz-fach-kopf, .kz-stapel-kopf, .kz-knopf):focus-visible { outline: 2px solid var(--thm-green-500); outline-offset: 2px; }
+.kz-karte.gewaehlt { border-color: var(--thm-green-500); box-shadow: 0 0 0 2px var(--thm-green-500); }
+.kz-karte.gezogen { opacity: 0.4; }
+
+/* ---- Felder, Schaltflächen, Vorschau ---- */
+.kz-feld { display: block; font-size: 0.85rem; }
+.kz-feld span { display: block; margin-bottom: 0.2rem; color: var(--thm-grey-600); font-weight: 600; }
+.kz-feld input, .kz-feld textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--thm-grey-300);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  color: var(--thm-grey-800);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.kz-feld textarea { resize: vertical; }
+.kz-feld :is(input, textarea):focus-visible { outline: 2px solid var(--thm-green-500); outline-offset: 1px; }
+.kz-fach .kz-feld { padding: 0 0.5rem 0.55rem; }
+
+.kz-fuss { display: flex; flex-direction: column; gap: 0.8rem; padding: 0.9rem; border-top: 1px solid var(--thm-grey-100); }
+/* Die als unsicher markierten Karten: Gelb heißt auch hier »hier sind Sie gefragt« */
+.kz-frage { padding: 0.7rem 0.9rem; border-left: 0.35rem solid var(--role-ask); border-radius: var(--radius-icon); background: var(--role-ask-soft); color: var(--thm-grey-800); }
+.kz-frage-kopf { margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 600; }
+.kz-frage-leer { display: none; margin: 0; font-size: 0.9rem; font-style: italic; color: var(--thm-grey-600); }
+.kz-frage.leer .kz-frage-leer { display: block; }
+.blatt .kz-zweifel-liste { display: flex; flex-direction: column; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.blatt .kz-zweifel-liste li { margin: 0; }
+.kz-zweifel-karte { margin: 0 0 0.25rem; font-size: 0.92rem; font-weight: 600; }
+.kz-zweifel-karte span { font-weight: 400; color: var(--thm-grey-600); }
+.kz-zweifel-zeile { display: flex; gap: 0.4rem; }
+.kz-zweifel-zeile input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--thm-grey-300);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  color: var(--thm-grey-800);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.kz-zweifel-zeile input:focus-visible { outline: 2px solid var(--thm-green-500); outline-offset: 1px; }
+.kz-zweifel-weg {
+  flex: none;
+  width: 2.1rem;
+  border: 1px solid var(--thm-grey-300);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  color: var(--thm-grey-600);
+  font: inherit;
+  cursor: pointer;
+}
+.kz-benutzername { max-width: 16rem; }
+
+.kz-leiste { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+/* Wie `thm-knopf` der Folien: kantig, hellgrau, die Hauptaktion in THM Grün */
+.kz-knopf {
+  padding: 0.45rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-100);
+  color: var(--thm-grey-800);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.kz-knopf:hover:not(:disabled) { background: var(--thm-grey-200); }
+.kz-knopf.kz-haupt { background: var(--thm-green-600); color: var(--white); }
+.kz-knopf.kz-haupt:hover:not(:disabled) { background: var(--thm-green-700); }
+.kz-knopf.kz-leise { margin-left: auto; background: none; color: var(--thm-grey-500); font-weight: 400; }
+.kz-knopf:disabled { opacity: 0.45; cursor: not-allowed; }
+.kz-hinweis { min-height: 1.4em; margin: 0; color: var(--thm-grey-600); font-size: 0.9rem; }
+
+.kz-vorschau summary { color: var(--thm-green-700); font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+.blatt .kz-vorschau pre { margin: 0.6rem 0 0; font-size: 0.82rem; white-space: pre-wrap; }
+
+/* Schmal: Stapel über den Fächern, begrenzt hoch, damit die Fächer erreichbar bleiben */
+@media (max-width: 40rem) {
+  .kz-flaeche { grid-template-columns: minmax(0, 1fr); }
+  .kz-stapel { top: 0; max-height: 45vh; background: var(--white); z-index: 1; }
+}
+
+@media print {
+  .kz-leiste, .kz-hinweis, .kz-vorschau { display: none; }
+  .kz-stapel { position: static; max-height: none; }
+}

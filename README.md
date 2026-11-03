@@ -1,3 +1,7 @@
+# Lecture slides
+
+The slides are published at <https://fjoelsak.github.io/PAP/>; sources and build instructions are in [slides/](slides/README.md).
+
 # Interactive notebooks in colab
 
 Here are the jupyter notebooks of the chapters available in colab for direct use:

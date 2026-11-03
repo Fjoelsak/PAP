@@ -1,0 +1,275 @@
+/*
+  Gestaltung von <git-szene> (index/git-szene.js). Farben und Schrift kommen
+  wie in index.css aus den Tokens des Themes.
+*/
+git-szene { display: block; margin: 1.8rem 0; }
+/* Bis das Element gestartet ist, bleibt sein Rohinhalt unsichtbar */
+git-szene:not(:defined) > * { display: none; }
+/* Lässt sich eine Szene nicht aufbauen, steht der Grund an ihrer Stelle */
+.gs-fehler {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--thm-red);
+  border-radius: var(--radius-icon);
+  color: var(--thm-red);
+}
+
+.gs {
+  margin: 0;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  background: var(--white);
+  line-height: 1.4;
+}
+.gs:focus-visible { outline: 2px solid var(--thm-green-500); outline-offset: 2px; }
+
+.gs-titel {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--thm-grey-100);
+  font-weight: 600;
+  color: var(--thm-grey-800);
+}
+
+/* ---- Bühne ---- */
+.gs-buehne { display: block; width: 100%; height: auto; padding: 0.5rem 0.25rem; font-family: var(--font-sans); }
+
+.gs-band { fill: var(--thm-grey-50); }
+.gs-bandname {
+  fill: var(--thm-grey-500);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-anchor: end;
+}
+.gs-flaeche { fill: var(--white); stroke: var(--thm-grey-200); stroke-width: 1; }
+.gs-name { fill: var(--thm-grey-800); font-size: 15px; font-weight: 600; }
+.gs-zusatz { fill: var(--thm-grey-500); font-size: 12.5px; }
+.gs-fachname { fill: var(--thm-grey-500); font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.gs-leer, .gs-fehlt { fill: var(--thm-grey-400); font-size: 13px; font-style: italic; transition: opacity 0.4s ease; }
+.gs-leer.weg { opacity: 0; }
+.gs-vorher { stroke: var(--thm-grey-300); stroke-width: 2; stroke-dasharray: 3 5; }
+
+/* Ein Repository, das es noch nicht gibt: gestrichelt und blass */
+.gs-streifen .gs-fehlt { opacity: 0; }
+.gs-streifen .gs-flaeche, .gs-streifen .gs-name, .gs-streifen .gs-zusatz, .gs-streifen .gs-vorher { transition: opacity 0.5s ease; }
+.gs-streifen.fehlt .gs-flaeche { stroke-dasharray: 5 5; fill: none; }
+.gs-streifen.fehlt .gs-name, .gs-streifen.fehlt .gs-zusatz { opacity: 0.45; }
+.gs-streifen.fehlt .gs-vorher { opacity: 0; }
+.gs-streifen.fehlt .gs-fehlt { opacity: 1; }
+
+.gs-pfeil line { stroke: var(--thm-grey-300); stroke-width: 2; transition: stroke 0.3s ease; }
+.gs-pfeilname { fill: var(--thm-grey-400); font-size: 12.5px; font-weight: 600; transition: fill 0.3s ease; }
+.gs-pfeil.aktiv line { stroke: var(--thm-green-600); stroke-width: 3; }
+.gs-pfeil.aktiv .gs-pfeilname { fill: var(--thm-green-700); }
+.gs-spitze.ruhe { fill: var(--thm-grey-300); }
+.gs-spitze.aktiv { fill: var(--thm-green-600); }
+
+/* Alles Bewegliche liegt über transform an seinem Platz und wandert von selbst */
+.gs-teil { transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease; }
+.gs-buehne.ruhig .gs-teil { transition: none; }
+
+.gs-kante line { stroke: var(--thm-grey-400); stroke-width: 2; }
+
+.gs-commit rect { fill: var(--white); stroke: var(--thm-grey-400); stroke-width: 1.5; transition: fill 0.4s ease, stroke 0.4s ease; }
+.gs-commit text, .gs-marke text, .gs-datei text {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-ligatures: none;
+}
+.gs-commit text { fill: var(--thm-grey-700); }
+.gs-commit.frisch rect { fill: var(--thm-green-100); stroke: var(--thm-green-500); }
+.gs-innen { transform-box: fill-box; transform-origin: center; }
+.gs-teil.plopp .gs-innen { animation: gs-plopp 0.5s cubic-bezier(0.3, 1.5, 0.5, 1); }
+@keyframes gs-plopp { from { transform: scale(0.3); } }
+
+.gs-marke rect { fill: var(--thm-grey-600); }
+.gs-marke text { fill: var(--white); }
+.gs-marke.head rect { fill: var(--thm-green-500); }
+
+.gs-datei rect { stroke-width: 1.5; }
+.gs-datei text { fill: var(--thm-grey-800); }
+.gs-datei .gs-status { font-family: var(--font-sans); font-size: 12px; }
+.gs-datei.arbeit rect { fill: var(--white); stroke: var(--thm-red); }
+.gs-datei.arbeit .gs-status { fill: var(--thm-red); }
+.gs-datei.vorgemerkt rect { fill: var(--thm-green-100); stroke: var(--thm-green-500); }
+.gs-datei.vorgemerkt .gs-status { fill: var(--thm-green-800); }
+
+.gs-pr rect { stroke-width: 1.5; }
+.gs-prtext { font-size: 12.5px; font-weight: 600; }
+.gs-pr.offen rect { fill: var(--thm-green-100); stroke: var(--thm-green-500); }
+.gs-pr.offen text { fill: var(--thm-green-900); }
+.gs-pr.fertig rect { fill: var(--thm-grey-600); stroke: var(--thm-grey-600); }
+.gs-pr.fertig text { fill: var(--white); }
+
+/* ---- Steuerung: Schaltflächen in der Form von .thm-knopf ---- */
+.gs-leiste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--thm-grey-100);
+}
+.gs-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+  border: 0;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-100);
+  color: var(--thm-grey-700);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.gs-knopf svg {
+  width: 1.05em;
+  height: 1.05em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gs-knopf:hover:not(:disabled) { background: var(--thm-grey-200); }
+.gs-knopf:disabled { opacity: 0.45; cursor: default; }
+.gs-knopf.aktiv { background: var(--thm-green-500); color: var(--white); }
+.gs-knopf.aktiv:hover { background: var(--thm-green-600); }
+.gs-knopf.quadrat { padding: 0.45rem; }
+.gs-knopf:focus-visible, .gs-punkt:focus-visible { outline: 2px solid var(--thm-green-700); outline-offset: 2px; }
+
+.gs-punkte { display: flex; gap: 0.3rem; margin: 0 auto; padding: 0 0.6rem; }
+.gs-punkt {
+  width: 1.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: var(--thm-grey-200);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.gs-punkt:hover { background: var(--thm-grey-300); }
+.gs-punkt.aktiv { background: var(--thm-green-500); }
+
+/* ---- Schritte: am Bildschirm nur der aktuelle, alle im selben Feld —
+   so springt die Höhe beim Weiterschalten nicht ---- */
+.gs-schritte { display: grid; margin: 0; padding: 0 0.9rem 0.9rem; list-style: none; }
+.gs-schritte > li {
+  grid-area: 1 / 1;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  margin: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.gs-schritte > li.aktiv { visibility: visible; opacity: 1; }
+.gs-nr {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-green-500);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.gs-inhalt { flex: 1; min-width: 0; }
+.gs-text { margin: 0.3rem 0 0; font-size: 0.98rem; line-height: 1.45; }
+.gs-schritte .gs-befehl,
+.gs-griff {
+  display: inline-block;
+  padding: 0.12rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.gs-schritte .gs-befehl { border: 0; background: var(--thm-grey-800); color: var(--white); }
+.gs-schritte .gs-befehl::before { content: '$ '; color: var(--thm-green-400); }
+.gs-griff { background: var(--thm-grey-100); color: var(--thm-grey-800); }
+
+/* ---- Mit Anleitung: Unter dem Bild steht die Aufgabe als Liste ihrer
+   Schritte. Der aktuelle ist hervorgehoben und aufgeklappt — dort steht, was
+   zu tun ist; die übrigen bleiben als Zeile stehen und lassen sich anwählen ---- */
+.gs.mit-anleitung .gs-schritte { display: block; padding: 0 0.5rem 0.6rem; }
+.gs.mit-anleitung .gs-schritte > li {
+  visibility: visible;
+  opacity: 1;
+  padding: 0.3rem 0.4rem;
+  border-radius: var(--radius-icon);
+  box-shadow: inset 3px 0 0 transparent;
+  cursor: pointer;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.gs.mit-anleitung .gs-schritte > li + li { margin-top: 0.15rem; }
+.gs.mit-anleitung .gs-schritte > li:not(.aktiv):hover { background: var(--thm-grey-50); }
+.gs.mit-anleitung .gs-schritte > li:not(.aktiv) .gs-inhalt > :not(h3, .gs-griff) { display: none; }
+.gs.mit-anleitung .gs-schritte > li:not(.aktiv) .gs-nr { background: var(--thm-grey-200); color: var(--thm-grey-600); }
+.gs.mit-anleitung .gs-schritte > li:not(.aktiv) h3 { color: var(--thm-grey-500); font-weight: 500; }
+/* Was schon getan ist, behält einen Hauch Grün */
+.gs.mit-anleitung .gs-schritte > li.erledigt .gs-nr { background: var(--thm-green-100); color: var(--thm-green-800); }
+.gs.mit-anleitung .gs-schritte > li.aktiv {
+  padding: 0.7rem 0.7rem 0.8rem 0.4rem;
+  background: var(--thm-green-100);
+  box-shadow: inset 3px 0 0 var(--thm-green-500);
+  cursor: auto;
+}
+.gs.mit-anleitung .gs-schritte > li.aktiv .gs-inhalt > :not(h3, .gs-griff) { animation: gs-auftritt 0.35s ease; }
+@keyframes gs-auftritt { from { opacity: 0; } }
+.gs-nr { transition: background-color 0.25s ease, color 0.25s ease; }
+.gs-inhalt h3 { margin: 0.12rem 0 0; font-size: 1.1rem; line-height: 1.3; }
+.gs-inhalt h3 + .gs-text { margin-top: 0.2rem; }
+/* Die Anleitung selbst: Abstände enger als im Lesetext des Blatts */
+.gs-inhalt > :is(p, ol, ul, pre, .vscode, .reiterkasten):not(.gs-text) { margin: 0.8rem 0 0; }
+/* Steht die Erläuterung als Absatz der Anleitung da, schließt sie ebenso an die Überschrift an */
+.gs-inhalt > h3 + p:not(.gs-text) { margin-top: 0.2rem; }
+.gs-inhalt > :last-child { margin-bottom: 0; }
+
+/* ---- Vollbild: für den Beamer ---- */
+.gs:fullscreen { display: flex; flex-direction: column; padding: 1.5rem 2.5rem; border: 0; font-size: 1.35rem; }
+.gs:fullscreen .gs-titel { font-size: 1.5rem; }
+.gs:fullscreen .gs-buehne { flex: 1; min-height: 0; }
+/* Marke und Erläuterung gleich groß: Die Erläuterung überragt ihre Überschrift nicht */
+.gs:fullscreen .gs-text,
+.gs:fullscreen .gs-schritte .gs-befehl, .gs:fullscreen .gs-griff { font-size: 1.25rem; }
+/* Die Anleitung darf das Bild nicht verdrängen: Sie rollt in ihrem Feld.
+   Die Größen staffeln sich wie im Blatt — Überschrift, Lesetext, Terminal */
+.gs.mit-anleitung:fullscreen .gs-schritte { flex: none; max-height: 42vh; overflow-y: auto; font-size: 1.15rem; }
+.gs.mit-anleitung:fullscreen .gs-inhalt h3 { font-size: 1.4rem; }
+.gs.mit-anleitung:fullscreen .gs-text { font-size: inherit; }
+.gs.mit-anleitung:fullscreen .gs-nr { width: 2.1rem; height: 2.1rem; font-size: 1.1rem; }
+.gs.mit-anleitung:fullscreen pre.terminal { font-size: 1.05rem; }
+.gs.mit-anleitung:fullscreen pre.terminal::before,
+.gs.mit-anleitung:fullscreen .vscode .vscode-kopf,
+.gs.mit-anleitung:fullscreen .rk-kopf label { font-size: 0.9rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-teil, .gs-schritte > li { transition: none; }
+  .gs.mit-anleitung .gs-schritte > li.aktiv .gs-inhalt > * { animation: none; }
+  .gs-teil.plopp .gs-innen { animation: none; }
+}
+
+/* Im Druck: Endzustand, darunter alle Schritte */
+@media print {
+  .gs { break-inside: avoid; }
+  .gs-leiste { display: none; }
+  .gs-schritte { display: block; padding-top: 0.6rem; }
+  .gs-schritte > li { visibility: visible; opacity: 1; margin-bottom: 0.5rem; }
+  .gs.mit-anleitung .gs-schritte > li { margin-bottom: 1.2rem; }
+  .gs.mit-anleitung .gs-schritte > li:not(.aktiv) .gs-inhalt > :not(h3, .gs-griff) { display: revert; }
+  /* Auf dem Papier gibt es keinen aktuellen Schritt: alle stehen gleich da */
+  .gs.mit-anleitung .gs-schritte > li.aktiv { padding: 0.3rem 0.4rem; background: none; box-shadow: none; }
+  .gs.mit-anleitung .gs-schritte > li:not(.aktiv) h3 { color: var(--thm-grey-800); font-weight: 700; }
+  /* Mit Anleitung ist die Abbildung länger als eine Seite */
+  .gs.mit-anleitung { break-inside: auto; }
+  .gs.mit-anleitung .gs-buehne { break-after: avoid; }
+}

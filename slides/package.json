@@ -1,0 +1,24 @@
+{
+  "name": "pap-slides",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "theme-thm",
+    "lectures/*"
+  ],
+  "scripts": {
+    "v01": "npm run dev -w v01-einfuehrung",
+    "build:all": "npm run build -w lectures --if-present",
+    "export:all": "npm run export -w lectures --if-present",
+    "build:pages": "node scripts/build-pages.mjs",
+    "build:index": "node scripts/build-pages.mjs --nur-index"
+  },
+  "devDependencies": {
+    "@slidev/parser": "^53.0.0",
+    "markdown-it": "^15.0.3",
+    "pdf-lib": "^1.17.1",
+    "playwright-chromium": "^1.64.1",
+    "shiki": "^4.6.0",
+    "yaml": "^2.9.1"
+  }
+}

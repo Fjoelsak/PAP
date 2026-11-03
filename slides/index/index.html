@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{#modul}}{{modul}} {{/modul}}{{veranstaltung}} — {{rubrik}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="innen">
+    <img class="lockup hell" src="thm-lockup-white.png" alt="Technische Hochschule Mittelhessen · Campus Friedberg · Fachbereich MND">
+    <img class="lockup druck" src="thm-lockup.png" alt="Technische Hochschule Mittelhessen · Campus Friedberg · Fachbereich MND">
+    <div class="rubrik">{{rubrik}}</div>
+    <h1>{{veranstaltung}}</h1>
+    <div class="balken"></div>
+    {{#modul}}<p class="einordnung"><span class="modul">{{modul}}</span>{{#studiengang}} · Studiengang {{studiengang}}{{/studiengang}}</p>{{/modul}}
+    {{#dozent}}<p class="dozent">{{dozent}}</p>{{/dozent}}
+  </div>
+</header>
+
+<main>
+  <div class="innen">
+    {{#einleitung}}<p class="einleitung">{{einleitung}}</p>{{/einleitung}}
+
+    <!-- Je Woche eine Zeile: Vorlesung und Übung nebeneinander, dazu das
+         Übungsblatt, wo eine Übung neben den Folien eines hat. Eine
+         Vorlesung über mehrere Termine reicht über ihre Zeilen hinweg; dort
+         steht statt ihrer Zelle der Verweis »wird fortgesetzt« (nur schmal sichtbar).
+         Die Zellen bleiben ohne Leerraum, damit leere als :empty gelten. -->
+    <div class="zeitleiste" style="--zl-spalten: {{spalten}}">
+      <div class="zl-kopf" aria-hidden="true"><span>Woche</span><span>Vorlesung</span><span>Übung</span>{{#mitBlaettern}}<span>Übungsblatt</span>{{/mitBlaettern}}</div>
+      <ol class="wochen">
+        {{#wochen}}
+        <li class="woche" role="listitem" style="--zeile: {{zeile}}">
+          <span class="marke">{{woche}}</span>
+          {{#vlZelle}}<div class="zelle vorlesung" style="--spanne: {{vlSpanne}}">{{#vorlesungen}}<a class="karte" href="{{link}}"><span class="nummer">{{nummer}}</span><span class="karte-text"><span class="art">Vorlesung</span><span class="titel">{{titel}}</span>{{#beschreibung}}<span class="beschreibung">{{beschreibung}}</span>{{/beschreibung}}{{#dauer}}<span class="dauer">{{dauer}}</span>{{/dauer}}</span></a>{{#notizen}}<a class="nebenweg" href="{{notizen}}">Foliennotizen zu {{nummer}}</a>{{/notizen}}{{#pdf}}<a class="nebenweg" href="{{pdf}}">Folien zu {{nummer}} als PDF</a>{{/pdf}}{{/vorlesungen}}</div>{{/vlZelle}}{{#weiter}}<div class="zelle weiter"><a class="nebenweg" href="{{link}}">{{nummer}} wird fortgesetzt</a></div>{{/weiter}}
+          <div class="zelle uebungszelle">{{#uebungen}}<a class="karte uebung" href="{{link}}"><span class="nummer">{{nummer}}</span><span class="karte-text"><span class="art">Übung</span><span class="titel">{{titel}}</span>{{#beschreibung}}<span class="beschreibung">{{beschreibung}}</span>{{/beschreibung}}</span></a>{{#notizen}}<a class="nebenweg" href="{{notizen}}">Foliennotizen zu {{nummer}}</a>{{/notizen}}{{#pdf}}<a class="nebenweg" href="{{pdf}}">Folien zu {{nummer}} als PDF</a>{{/pdf}}{{/uebungen}}</div>
+          {{#mitBlaettern}}<div class="zelle blattzelle">{{#blaetter}}<a class="karte blattkarte" href="{{link}}"><span class="nummer">{{nummer}}</span><span class="karte-text"><span class="art">Übungsblatt</span><span class="titel">{{titel}}</span>{{#beschreibung}}<span class="beschreibung">{{beschreibung}}</span>{{/beschreibung}}</span></a>{{/blaetter}}</div>{{/mitBlaettern}}
+        </li>
+        {{/wochen}}
+      </ol>
+    </div>
+  </div>
+</main>
+
+<footer class="fuss">
+  <div class="innen">{{#modul}}{{modul}} {{/modul}}{{veranstaltung}}{{#dozent}} · {{dozent}}{{/dozent}}</div>
+</footer>
+
+</body>
+</html>

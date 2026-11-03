@@ -1,0 +1,187 @@
+/* ============================================================
+   BASISTYPOGRAFIE
+   Alle Folien liegen auf Weiß; Fließtext in THM Grau, wie im
+   CD-Manual vorgesehen. Überschriften bleiben — anders als in
+   der Webanwendung des Design-Systems — gemischt geschrieben,
+   weil die Vorlesungsreihe das seit jeher so hält.
+   ============================================================ */
+
+html,
+body,
+#slide-content {
+  background: var(--surface-page);
+}
+
+.slidev-layout {
+  /* Ohne explizite Höhe kollabiert der Layout-Container auf die Inhaltshöhe;
+     alle absolut positionierten Bausteine (Fußleiste, Agenda-Band, Titelfoto)
+     verlieren dann ihren Bezugsrahmen. */
+  height: 100%;
+  position: relative;
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  color: var(--text-body);
+  background: var(--surface-page);
+  line-height: var(--lh-body);
+  padding: var(--slide-pad-top) var(--slide-pad-x) var(--slide-pad-bottom);
+  font-size: 1rem;
+}
+
+.slidev-layout h1 {
+  font-size: 1.55rem;
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  color: var(--text-strong);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+/* Untertitel einer Folie — steht zwischen Titel und grünem Balken */
+.slidev-layout .slide-subtitle {
+  font-size: 0.95rem;
+  font-weight: var(--fw-medium);
+  color: var(--thm-grey-500);
+  line-height: var(--lh-snug);
+  margin-top: 0.2rem;
+}
+
+.slidev-layout h2 {
+  font-size: 1.15rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+  margin: 0 0 0.5rem;
+}
+
+.slidev-layout h3 {
+  font-size: 0.95rem;
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+  margin: 0 0 0.35rem;
+}
+
+.slidev-layout p {
+  margin: 0 0 0.7rem;
+}
+
+.slidev-layout strong {
+  font-weight: var(--fw-bold);
+  color: var(--text-strong);
+}
+
+.slidev-layout em {
+  font-style: italic;
+}
+
+/* Hält einen Verweis mit dem folgenden Satzzeichen zusammen */
+.slidev-layout .nowrap { white-space: nowrap; }
+
+/* Der grüne Marker aus dem Original: hervorgehobene Fachbegriffe */
+.slidev-layout .term {
+  color: var(--thm-green-600);
+  font-weight: var(--fw-semibold);
+  font-style: italic;
+}
+
+.slidev-layout a {
+  color: var(--thm-green-700);
+  text-decoration: none;
+  border-bottom: 1px solid var(--thm-green-300);
+}
+
+/* ---- Listen: quadratischer Marker in THM Grün wie in der PPTX ---- */
+.slidev-layout ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.8rem;
+}
+
+.slidev-layout ul > li {
+  position: relative;
+  padding-left: 1.05rem;
+  margin-bottom: 0.55rem;
+  line-height: var(--lh-snug);
+}
+
+.slidev-layout ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 0.36rem;
+  height: 0.36rem;
+  background: var(--thm-green-500);
+}
+
+/* Verschachtelte Ebene: kleinerer, grauer Marker */
+.slidev-layout ul ul {
+  margin: 0.45rem 0 0.2rem;
+}
+
+.slidev-layout ul ul > li {
+  font-size: 0.92em;
+  margin-bottom: 0.32rem;
+}
+
+.slidev-layout ul ul > li::before {
+  background: var(--thm-grey-300);
+  width: 0.3rem;
+  height: 0.3rem;
+}
+
+.slidev-layout ol {
+  /* Das Preflight der CSS-Engine entfernt list-style auch bei ol —
+     für nummerierte Listen also wieder setzen. */
+  list-style: decimal;
+  padding-left: 1.2rem;
+  margin: 0 0 0.8rem;
+}
+
+.slidev-layout ol > li {
+  margin-bottom: 0.55rem;
+  line-height: var(--lh-snug);
+}
+
+.slidev-layout ol > li::marker {
+  color: var(--thm-green-600);
+  font-weight: var(--fw-semibold);
+}
+
+.slidev-layout code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  /* Ohne Ligaturen: »-<« oder »->« in Befehlen sollen lesbar bleiben */
+  font-variant-ligatures: none;
+  /* Weiß mit kräftigem Rand: hebt sich auf Karten (Grau-50) wie auf Weiß ab */
+  background: var(--white);
+  border: 1px solid var(--thm-grey-300);
+  border-radius: 3px;
+  padding: 0.05em 0.3em;
+}
+
+/* Slidev färbt Code im Fließtext über `:not(pre) > code` und gewinnt damit
+   gegen die Regel oben — im Dark Mode stünde der Befehl sonst auf Schwarz. */
+.slidev-layout :not(pre) > code:not(.shiki) {
+  background: var(--white);
+  color: var(--thm-grey-800);
+  font-weight: var(--fw-medium, 500);
+}
+
+.slidev-layout blockquote {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--thm-green-500);
+  color: var(--thm-grey-500);
+}
+
+/* ---- Feinjustierung der Schriftgröße pro Folie ----
+   Als Klasse im Frontmatter setzbar, wenn eine Folie inhaltlich
+   dicht ist: `class: text-s` bzw. `text-xs`.                    */
+.slidev-layout.text-s  { font-size: 0.9rem; }
+.slidev-layout.text-xs { font-size: 0.82rem; }
+.slidev-layout.text-l  { font-size: 1.1rem; }
+
+/* Vortragsansicht und Druck sollen denselben Grund haben */
+@media print {
+  .slidev-layout { background: var(--surface-page); }
+}

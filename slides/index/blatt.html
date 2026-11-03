@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{titel}}{{#veranstaltung}} — {{veranstaltung}}{{/veranstaltung}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="../git-szene.css">
+<link rel="stylesheet" href="../karten-zuordnung.css">
+<!-- Ohne JavaScript startet <git-szene> nie: Die Anleitung in den Abbildungen bleibt dann als Text lesbar -->
+<noscript><style>git-szene:not(:defined) > * { display: revert; }</style></noscript>
+</head>
+<body>
+
+<header class="kopf">
+  <div class="innen schmal">
+    <img class="lockup hell" src="../thm-lockup-white.png" alt="Technische Hochschule Mittelhessen · Campus Friedberg · Fachbereich MND">
+    <img class="lockup druck" src="../thm-lockup.png" alt="Technische Hochschule Mittelhessen · Campus Friedberg · Fachbereich MND">
+    <div class="rubrik">{{rubrik}}</div>
+    <h1>{{titel}}</h1>
+    <div class="balken"></div>
+    <p class="wege">{{#folien}}<a href="{{folien}}">Zu den Folien</a> · {{/folien}}<a href="../">Zur Übersicht</a></p>
+  </div>
+</header>
+
+<main>
+  <article class="innen schmal blatt">
+<!--inhalt-->
+  </article>
+</main>
+
+<footer class="fuss">
+  <div class="innen schmal">{{#veranstaltung}}{{veranstaltung}}{{/veranstaltung}}{{#dozent}} · {{dozent}}{{/dozent}}</div>
+</footer>
+
+<script src="../git-szene.js"></script>
+<script src="../karten-zuordnung.js"></script>
+<script src="../reiterkasten.js"></script>
+</body>
+</html>

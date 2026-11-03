@@ -1,0 +1,543 @@
+/*
+  Gestaltung der Übersichtsseite. Farben, Schrift und Raster kommen aus
+  theme-thm/styles/tokens.css — der Build legt die Datei als tokens.css
+  daneben. Auch hier gilt: immer die Variablen, nie Hex-Werte.
+*/
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  color: var(--thm-grey-600);
+  background: var(--white);
+}
+
+.innen { width: 100%; max-width: 68rem; margin: 0 auto; }
+
+/* ---- Kopf: dunkle Rasterfläche wie auf den Titelfolien ---- */
+.kopf {
+  padding: 3.5rem 1.5rem 3rem;
+  color: var(--white);
+  background-color: var(--surface-dark);
+  background-image:
+    linear-gradient(var(--grid-line-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-dark) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  background-position: -1px -1px;
+}
+
+/* Die CD-Lockup oben rechts wie auf den Folien: weiß auf der dunklen Fläche,
+   farbig im Druck, wo der Kopf auf Weiß steht */
+.kopf .lockup { display: block; width: 14rem; max-width: 100%; height: auto; margin: 0 0 2.2rem auto; }
+.kopf .lockup.druck { display: none; }
+
+.rubrik {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--thm-green-500);
+}
+
+h1 { margin: 0.6rem 0 0; font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 700; line-height: 1.1; }
+.balken { width: 4rem; height: 0.35rem; margin-top: 1.4rem; background: var(--thm-green-500); }
+.einordnung { margin: 1.2rem 0 0; font-size: 1.1rem; }
+.modul { font-weight: 600; }
+.dozent { margin: 0.3rem 0 0; font-size: 1.1rem; opacity: 0.85; }
+
+/* ---- Inhalt ---- */
+main { flex: 1; padding: 2.5rem 1.5rem; }
+
+.einleitung { margin: 0 0 2rem; max-width: 42rem; font-size: 1.15rem; line-height: 1.5; }
+
+/* ---- Zeitleiste: je Woche eine Zeile, zwei oder drei Spalten nebeneinander ---- */
+/* --zeile und --spanne setzt die Vorlage je Woche bzw. Vorlesung */
+.zeitleiste { --zl-marke: 2.5rem; --zl-luft: 1rem; --zl-spalten: 3; --zeile: auto; --spanne: 1; }
+
+.zl-kopf,
+.woche {
+  display: grid;
+  grid-template-columns: var(--zl-marke) repeat(var(--zl-spalten), minmax(0, 1fr));
+  column-gap: var(--zl-luft);
+}
+
+.zl-kopf {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--thm-green-600);
+}
+.zl-kopf span:first-child { font-size: 0; }
+
+.wochen { list-style: none; margin: 0; padding: 0; }
+
+.woche { position: relative; padding-bottom: 1.5rem; }
+.woche:last-child { padding-bottom: 0; }
+
+/* Die Achse läuft hinter den Marken von Woche zu Woche */
+.woche::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--zl-marke) / 2 - 1px);
+  width: 2px;
+  background: var(--thm-grey-200);
+}
+.woche:last-child::before { bottom: auto; height: 2rem; }
+
+.marke {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--zl-marke);
+  height: var(--zl-marke);
+  margin-top: 0.85rem;
+  border: 2px solid var(--thm-green-500);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--thm-grey-800);
+  font-weight: 700;
+}
+
+/* Verbinder auf Höhe der Marke: von jeder Karte zum linken Nachbarn */
+.zelle { position: relative; display: flex; flex-direction: column; gap: 0.5rem; }
+.zelle:not(:empty)::before,
+.zelle:empty:has(~ .zelle:not(:empty))::before {
+  content: '';
+  position: absolute;
+  top: calc(0.85rem + var(--zl-marke) / 2 - 1px);
+  left: calc(-1 * var(--zl-luft));
+  width: var(--zl-luft);
+  height: 2px;
+  background: var(--thm-grey-200);
+}
+/* Eine leere Zelle zwischen zwei Karten reicht die Linie durch */
+.zelle:empty:has(~ .zelle:not(:empty))::before { width: calc(100% + var(--zl-luft)); }
+
+.karte {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.1rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-50);
+  color: inherit;
+  text-decoration: none;
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.karte:hover,
+.karte:focus-visible {
+  background: var(--white);
+  box-shadow: 0 0 0 2px var(--thm-green-500);
+  outline: none;
+}
+
+.nummer {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 3rem;
+  height: 3rem;
+  padding: 0 0.5rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-green-500);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.karte-text { display: flex; flex-direction: column; gap: 0.4rem; }
+.titel { font-size: 1.2rem; font-weight: 600; line-height: 1.25; color: var(--thm-grey-800); }
+.beschreibung { font-size: 0.95rem; line-height: 1.4; color: var(--thm-grey-500); }
+
+.art { display: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--thm-green-600); }
+
+/* Was zu einer Karte gehört, aber eine eigene Seite ist: Foliennotizen und PDF */
+.nebenweg {
+  align-self: flex-start;
+  margin: -0.15rem 0 0 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--thm-green-700);
+}
+.nebenweg::before { content: '→ '; }
+
+/* Übung in THM Grau, Übungsblatt als Umriss — Grün bleibt der Vorlesung */
+.uebung .nummer { background: var(--thm-grey-600); }
+.blattkarte .nummer { background: var(--white); color: var(--thm-grey-600); box-shadow: inset 0 0 0 2px var(--thm-grey-300); }
+
+/* Termine einer Vorlesung, die über mehrere Wochen reicht */
+.dauer { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--thm-green-700); }
+
+/* Verweis auf eine Vorlesung, die aus der Vorwoche hineinreicht, auf Höhe der Marke */
+.weiter .nebenweg { margin-top: 1.45rem; }
+
+/* Breit: alle Wochen in einem Raster, damit eine Vorlesung über mehrere
+   Termine (`bis` im Frontmatter) über ihre Zeilen reichen kann. Die Wochen
+   selbst geben ihre Kinder ans Raster weiter; Zeile und Spanne kommen aus
+   der Vorlage (--zeile, --spanne). */
+@media (width > 46rem) {
+  .wochen {
+    display: grid;
+    grid-template-columns: var(--zl-marke) repeat(var(--zl-spalten), minmax(0, 1fr));
+    column-gap: var(--zl-luft);
+    row-gap: 1.5rem;
+  }
+  /* `display: contents` nimmt dem <li> in WebKit die Listensemantik;
+     `role="listitem"` im Template gibt sie zurück */
+  .woche { display: contents; }
+  .woche > *,
+  .woche::before { grid-row: var(--zeile); }
+  .woche::before { position: static; grid-column: 1; justify-self: center; margin-bottom: -1.5rem; }
+  .woche:last-child::before { align-self: start; margin-bottom: 0; }
+  .marke { grid-column: 1; }
+  .woche > .vorlesung,
+  .woche > .weiter { grid-column: 2; }
+  .woche > .uebungszelle { grid-column: 3; }
+  .woche > .blattzelle { grid-column: 4; }
+  .woche > .vorlesung { grid-row: var(--zeile) / span var(--spanne); }
+  /* Die Karte füllt alle ihre Zeilen, die Termine stehen an ihrem Fuß */
+  .vorlesung .karte { flex: 1; }
+  .vorlesung .karte-text { align-self: stretch; }
+  .dauer { margin-top: auto; padding-top: 0.6rem; }
+  /* Unter der weiterlaufenden Karte bleibt vom Platzhalter nur der Verbinder */
+  .weiter { pointer-events: none; }
+  .weiter > * { visibility: hidden; }
+}
+
+/* Schmal: eine Spalte neben der Achse, die Art steht dann auf der Karte */
+@media (max-width: 46rem) {
+  .zl-kopf { display: none; }
+  .woche { grid-template-columns: var(--zl-marke) minmax(0, 1fr); row-gap: 0.5rem; }
+  .zelle { grid-column: 2; }
+  .zelle:empty { display: none; }
+  .zelle::before { display: none; }
+  .art { display: block; }
+}
+
+/* ---- Übungsblatt: Lesetext in einer schmalen Spalte ---- */
+.schmal { max-width: 46rem; }
+.wege { margin: 1.2rem 0 0; }
+.wege a { color: var(--white); }
+
+.blatt { font-size: 1.05rem; line-height: 1.6; }
+.blatt h2 {
+  margin: 3rem 0 1rem;
+  padding-top: 1.2rem;
+  border-top: 0.25rem solid var(--thm-green-500);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--thm-grey-800);
+}
+.blatt h3 { margin: 2rem 0 0.6rem; font-size: 1.2rem; color: var(--thm-grey-800); }
+.blatt a { color: var(--thm-green-700); }
+/* Sprung nach außen hinter einer als Code gesetzten Adresse: der Pfeil aus dem
+   Markdown wird im HTML zum Symbol »external-link« (Lucide) */
+.blatt a.extern {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  margin-left: 0.15em;
+  overflow: hidden;
+  vertical-align: -0.16em;
+  color: transparent;
+  background: var(--thm-green-700);
+  --symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='M10 14 21 3'/%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E");
+  -webkit-mask: var(--symbol) center / contain no-repeat;
+  mask: var(--symbol) center / contain no-repeat;
+}
+.blatt a.extern:hover { background: var(--thm-green-900); }
+.blatt li { margin-bottom: 0.4rem; }
+.blatt li::marker { color: var(--thm-green-600); font-weight: 600; }
+.blatt code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  font-variant-ligatures: none;
+  padding: 0.05em 0.3em;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: 3px;
+  background: var(--thm-grey-50);
+}
+.blatt pre {
+  overflow-x: auto;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-800);
+  color: var(--white);
+  line-height: 1.5;
+}
+/* Lange Adressen dürfen umbrechen, sonst läuft die Seite auf dem Telefon über */
+.blatt :not(pre) > code { overflow-wrap: anywhere; }
+.blatt pre code { padding: 0; border: 0; background: none; color: inherit; }
+/* Farben der eingefärbten Codeblöcke (Shiki, scripts/build-pages.mjs). Nur
+   Grün und Grau: Gelb, Cyan und die Phasenfarben tragen im CD eine Bedeutung. */
+.blatt {
+  --code-background: var(--thm-grey-800);
+  --code-foreground: var(--white);
+  --code-token-keyword: var(--thm-green-400);
+  --code-token-function: var(--thm-green-400);
+  --code-token-constant: var(--thm-green-300);
+  --code-token-string: var(--thm-green-200);
+  --code-token-string-expression: var(--thm-green-200);
+  --code-token-parameter: var(--thm-grey-100);
+  --code-token-punctuation: var(--thm-grey-300);
+  --code-token-comment: var(--thm-grey-400);
+  --code-token-link: var(--thm-green-300);
+}
+/* Terminalfenster um ```console: Eingaben
+   weiß und fett, Ausgaben blasser, Dateizeilen rot und grün wie bei git */
+.blatt pre.terminal { padding: 0; background: var(--thm-grey-800); color: var(--thm-grey-200); font-size: 0.95rem; }
+.blatt pre.terminal::before {
+  content: 'Terminal';
+  display: block;
+  padding: 0.3rem 1.1rem;
+  background: var(--thm-grey-900);
+  color: var(--thm-grey-300);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.blatt pre.terminal code { display: block; width: max-content; min-width: 100%; padding: 0.8rem 1.1rem; }
+.blatt pre.terminal .eingabe { color: var(--white); font-weight: 600; }
+.blatt pre.terminal .prompt { color: var(--thm-green-400); user-select: none; }
+.blatt pre.terminal .rot { color: color-mix(in srgb, var(--thm-red) 42%, var(--white)); }
+.blatt pre.terminal .gruen { color: var(--thm-green-300); }
+/* Der Prompt an den Agenten: dasselbe Fenster, aber Fließtext mit Umbruch */
+.blatt pre.terminal.agent::before { content: 'opencode'; }
+.blatt pre.terminal.agent code {
+  width: auto;
+  white-space: pre-wrap;
+  padding-left: 2.2rem;
+  text-indent: -1.1rem;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* Der Klickweg in Visual Studio Code, als Gegenstück zum Terminalfenster */
+.blatt .vscode {
+  margin: 1rem 0;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-50);
+}
+.blatt .vscode p { margin: 0; padding: 0.7rem 1.1rem; }
+.blatt .vscode .vscode-kopf {
+  padding: 0.3rem 1.1rem;
+  border-bottom: 1px solid var(--thm-grey-200);
+  color: var(--thm-grey-600);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* Kasten mit zwei Reitern: ```markdown vorschau („Markdown“ und „Ergebnis“)
+   sowie Terminal und Klickweg desselben Schritts. Kopf wie beim Klickweg,
+   Reiter wie thm-knopf: kantig, hellgrau, aktiv grün. Der Inhalt bringt
+   seinen Kopf nicht mehr mit, das sagt der Reiter. */
+.blatt .reiterkasten {
+  margin: 1rem 0;
+  border: 1px solid var(--thm-grey-200);
+  border-radius: var(--radius-icon);
+  overflow: hidden;
+}
+.blatt .rk-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--thm-grey-200);
+  background: var(--thm-grey-50);
+}
+.blatt .rk-titel {
+  margin-right: auto;
+  padding-left: 0.6rem;
+  color: var(--thm-grey-600);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.blatt .rk-wahl { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.blatt .rk-kopf label {
+  padding: 0.2rem 0.75rem;
+  border-radius: 3px;
+  background: var(--thm-grey-100);
+  color: var(--thm-grey-700);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.blatt .rk-wahl:checked + label { background: var(--thm-green-500); color: var(--white); }
+.blatt .rk-wahl:focus-visible + label { outline: 2px solid var(--thm-green-700); outline-offset: 2px; }
+.blatt .rk-feld { display: none; }
+.blatt .reiterkasten:has(.rk-wahl-1:checked) .rk-feld-1,
+.blatt .reiterkasten:has(.rk-wahl-2:checked) .rk-feld-2 { display: block; }
+.blatt .rk-feld > pre { margin: 0; border-radius: 0; }
+.blatt .rk-feld > pre.terminal::before,
+.blatt .rk-feld > .vscode .vscode-kopf { display: none; }
+.blatt .rk-feld > .vscode { margin: 0; border: 0; border-radius: 0; }
+.blatt .rk-ergebnis { padding: 0 1.1rem; background: var(--white); }
+
+/* Ort und Dauer unter der Überschrift einer Aufgabe */
+.blatt .angabe {
+  margin: -0.4rem 0 1.2rem;
+  color: var(--thm-green-700);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Fragen: Gelb heißt auch hier »hier sind Sie gefragt« */
+.blatt .fragen {
+  margin: 1.6rem 0;
+  padding: 0.9rem 1.1rem;
+  border-left: 0.35rem solid var(--role-ask);
+  border-radius: var(--radius-icon);
+  background: var(--role-ask-soft);
+  color: var(--thm-grey-800);
+}
+.blatt .fragen-kopf { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.blatt .fragen ul { margin: 0; padding-left: 1.2rem; }
+.blatt .fragen li:last-child { margin-bottom: 0; }
+.blatt .fragen li::marker { color: var(--thm-grey-800); }
+/* Mit Musterantworten: Reiter im gelben Kasten, der Kopf trägt den Namen
+   wie sonst .fragen-kopf; je Antwort steht die Frage noch einmal darüber */
+.blatt .fragen .reiterkasten { margin: 0; border: 0; border-radius: 0; overflow: visible; }
+.blatt .fragen .rk-kopf { padding: 0 0 0.6rem; border: 0; background: none; }
+.blatt .fragen .rk-titel { padding-left: 0; color: var(--thm-grey-800); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.blatt .fragen .rk-kopf label { background: color-mix(in srgb, var(--white) 65%, transparent); color: var(--thm-grey-800); }
+/* Schmal passen Name und beide Reiter nicht in eine Zeile: Reiter darunter */
+@media (max-width: 30rem) { .blatt .fragen .rk-titel { flex-basis: 100%; } }
+.blatt .fragen .rk-wahl:checked + label { background: var(--thm-green-500); color: var(--white); }
+.blatt .fragen .antworten > li { margin-bottom: 0.8rem; }
+.blatt .fragen .frage-wdh { font-weight: 600; }
+
+/* > [!IMPORTANT]: Regeln, die niemand übersehen darf (Einreichung, Bonuspunkte).
+   Rot wie der Negativbefund: Wer es übersieht, verliert etwas. */
+.blatt .wichtig {
+  margin: 1.6rem 0;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--thm-red) 35%, transparent);
+  border-left: 0.35rem solid var(--thm-red);
+  border-radius: var(--radius-icon);
+  background: color-mix(in srgb, var(--thm-red) 7%, var(--white));
+  color: var(--thm-grey-800);
+}
+.blatt .wichtig-kopf {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  color: var(--thm-red);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.blatt .wichtig-kopf::before {
+  content: '!';
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-red);
+  color: var(--white);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+}
+.blatt .wichtig p { margin: 0.5rem 0 0; }
+.blatt .wichtig p.wichtig-kopf + p { margin-top: 0; }
+
+/* > [!NOTE]: Information am Rand, etwa für alle, die schon ein Konto haben.
+   Grün statt Blau oder Cyan: Blau trägt die Systemkonstruktion, Cyan die Herkunft. */
+.blatt .info {
+  margin: 1.2rem 0;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid var(--thm-green-200);
+  border-left: 0.35rem solid var(--thm-green-500);
+  border-radius: var(--radius-icon);
+  background: var(--thm-green-50);
+  color: var(--thm-grey-800);
+}
+.blatt .info-kopf {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.4rem;
+  color: var(--thm-green-700);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.blatt .info-kopf::before {
+  content: 'i';
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--radius-icon);
+  background: var(--thm-green-500);
+  color: var(--white);
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.blatt .info p { margin: 0.5rem 0 0; }
+.blatt .info p.info-kopf + p { margin-top: 0; }
+
+/* Hinweis, der nur in der Ansicht der Markdown-Datei auf GitHub stehen soll */
+.blatt .nur-github { display: none; }
+
+/* Sprungziele nicht unter den Fensterrand schieben */
+.blatt :is(h2, h3) { scroll-margin-top: 1rem; }
+
+.blatt table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.95rem; }
+.blatt th { padding: 0.6rem 0.8rem; background: var(--thm-grey-600); color: var(--white); text-align: left; }
+.blatt td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--thm-grey-200); vertical-align: top; }
+/* Code bleibt in Tabellen am Stück: Darf er überall umbrechen, schrumpft die
+   Spalte auf fast nichts und `# Titel` zerfällt in Einzelzeichen. Auf dem
+   Telefon gilt wieder das Umbrechen von oben, sonst läuft die Seite über. */
+@media (min-width: 40rem) {
+  .blatt td code { white-space: nowrap; overflow-wrap: normal; }
+}
+.blatt blockquote { margin: 1.2rem 0; padding: 0.2rem 0 0.2rem 1rem; border-left: 3px solid var(--thm-green-500); }
+
+/* ---- Fuß ---- */
+.fuss {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--thm-grey-200);
+  font-size: 0.85rem;
+  color: var(--thm-grey-500);
+}
+
+@media print {
+  .kopf { color: var(--thm-grey-800); background: none; padding: 0 0 1rem; }
+  .wege { display: none; }
+  .kopf .lockup.hell { display: none; }
+  .kopf .lockup.druck { display: block; }
+  .blatt pre, .blatt .fragen, .blatt .vscode, .blatt .reiterkasten, .blatt .wichtig, .blatt .info { break-inside: avoid; }
+  /* Auf Papier lässt sich kein Reiter wählen: beide Felder untereinander */
+  .blatt .rk-kopf { display: none; }
+  .blatt .rk-feld { display: block !important; }
+  .blatt .rk-feld + .rk-feld { border-top: 1px solid var(--thm-grey-200); }
+  .blatt .rk-feld > pre.terminal::before,
+  .blatt .rk-feld > .vscode .vscode-kopf { display: block; }
+  /* Kontrollfragen gedruckt ohne Musterantworten, aber mit ihrem Namen */
+  .blatt .fragen .rk-kopf { display: flex; }
+  .blatt .fragen .rk-kopf label { display: none; }
+  .blatt .fragen .rk-feld-2 { display: none !important; }
+}

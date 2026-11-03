@@ -1,0 +1,68 @@
+# Baut alle Foliensätze unter slides/ und veröffentlicht sie auf GitHub Pages.
+# Läuft bei jedem Push auf main, der slides/ oder diesen Workflow ändert —
+# also auch, wenn ein solcher Pull Request nach main gemergt wird — und lässt
+# sich im Reiter „Actions" von Hand starten.
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'slides/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nur eine Veröffentlichung zugleich; eine laufende wird zu Ende geführt.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Der PDF-Export startet Chromium: Hängt er, soll der Lauf nicht stundenlang
+    # die Veröffentlichung blockieren (die Gruppe »pages« lässt nur einen zu).
+    timeout-minutes: 30
+    # Das Slidev-Projekt liegt in slides/, nicht an der Wurzel des Repositorys
+    defaults:
+      run:
+        working-directory: slides
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: slides/package-lock.json
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm ci
+
+      # Chromium samt Systembibliotheken: Der Build exportiert jeden Foliensatz als PDF.
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm run build:pages
+        env:
+          PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: slides/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

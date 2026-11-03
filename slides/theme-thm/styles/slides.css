@@ -1,0 +1,439 @@
+/* ============================================================
+   FOLIENSTRUKTUR & WIEDERKEHRENDE BAUSTEINE
+   Aufbau nach dem Claude-Design-System „THM & StudiumPlus":
+   helle Inhaltsfolien mit Rubrik, Titel und grünem Balken;
+   dunkle Folien (Titel, Abschnitt, Zitat, Schluss) auf THM Grau
+   mit feinem Raster.
+   ============================================================ */
+
+.slidev-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Kopfbereich (SlideHead.vue) ---- */
+.thm-head {
+  flex: none;
+  margin-bottom: 1.15rem;
+  padding-right: 12.5rem; /* Freiraum für die Logo-Lockup oben rechts */
+}
+
+.thm-eyebrow {
+  font-size: 0.62rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--thm-green-700);
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
+
+.thm-bar {
+  width: 3.6rem;
+  height: 0.22rem;
+  background: var(--thm-green-500);
+  margin-top: 0.6rem;
+}
+
+/* ---- Inhaltsbereich: füllt die Folie unter dem Kopf ---- */
+.thm-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+/* ---- Spalten ---- */
+.thm-cols {
+  display: grid;
+  gap: var(--grid-gap);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+}
+
+.thm-cols-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.thm-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.thm-cols-2-3 { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+.thm-cols-3-2 { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.thm-cols-1-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+
+/* Senkrechter Stapel, der die Resthöhe teilt */
+.thm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap);
+  min-height: 0;
+  flex: 1;
+}
+
+/* Einleitender Satz über dem eigentlichen Inhalt */
+.thm-lead {
+  flex: none;
+  font-size: 0.95rem;
+  line-height: var(--lh-snug);
+  color: var(--text-strong);
+  margin-bottom: 0.9rem;
+}
+
+.thm-lead p:last-child { margin-bottom: 0; }
+
+/* Kleine Anmerkung unter einem Raster */
+.thm-note {
+  flex: none;
+  margin-top: 0.6rem;
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* ---- Karten, die per Klick an einen Zeitstrahl andocken ----
+   Reihe unter einem <Timeline> mit `fokus`: die Stiele der Fokus-Marken
+   enden an ihrer Oberkante. `offen` (ab dem ersten Klick) gibt der Reihe
+   ihre Höhe, `da` blendet die einzelne Karte ein. Die Selektoren sind
+   bewusst lang — sie müssen die scoped-Stile der Karte überstimmen.
+   Auf- und zugeklappt wird bis zur tatsächlichen Höhe (`interpolate-size`),
+   nicht bis zu einer festen Obergrenze, die längeren Inhalt still abschnitte;
+   ein Browser ohne `interpolate-size` springt, statt zu gleiten. */
+:root { interpolate-size: allow-keywords; }
+
+div.zeitstrahl-karten {
+  flex: none;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--grid-gap);
+  height: 0;
+  overflow: hidden;
+  transition: height 0.45s ease;
+}
+
+div.zeitstrahl-karten.offen { height: auto; }
+
+div.zeitstrahl-karten > .thm-card {
+  font-size: 0.86rem;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+div.zeitstrahl-karten > .thm-card.da { opacity: 1; }
+div.zeitstrahl-karten > .thm-card > .card-band { padding: 0.4rem 0.9rem; font-size: 1.1em; }
+div.zeitstrahl-karten > .thm-card > .card-inner { padding: 0.6rem 0.9rem; }
+div.zeitstrahl-karten > .thm-card .card-text p { margin-bottom: 0.35rem; }
+div.zeitstrahl-karten > .thm-card .card-text ul > li { margin-bottom: 0.2rem; }
+
+/* Einleitender Baustein, der den Karten mit dem ersten Klick Platz macht */
+.weicht {
+  height: auto;
+  overflow: hidden;
+  transition: height 0.45s ease, padding 0.45s ease, opacity 0.3s ease;
+}
+
+.callout.weicht.zu,
+.weicht.zu { height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+
+/* ---- Zentrierte Aussage ---- */
+.thm-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---- Abbildung mit Bildunterschrift ---- */
+.thm-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.thm-figure img,
+.thm-figure svg {
+  /* min-height:0 ist nötig, damit das Bild in einer Flex- oder Grid-Zelle
+     unter seine Eigengröße schrumpfen darf, statt die Zelle aufzublähen. */
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  align-self: center;
+}
+
+.thm-figure figcaption {
+  font-size: 0.66rem;
+  line-height: var(--lh-snug);
+  color: var(--text-muted);
+}
+
+/* ---- Schaltflächen in Abbildungen (Animation starten, Infotafel …):
+        kantig und gefüllt wie die Karten, aktiv in THM Grün ---- */
+.thm-knopf {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.8rem;
+  border: 0;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-100);
+  color: var(--thm-grey-700);
+  font-size: 0.7rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.thm-knopf:hover { background: var(--thm-grey-200); }
+
+.thm-knopf.aktiv {
+  background: var(--thm-green-500);
+  color: var(--white);
+}
+
+.thm-knopf.aktiv:hover { background: var(--thm-green-600); }
+
+/* Das Icon ist in Ruhe grün; auf der grünen Fläche muss es weiß werden
+   (ThmIcon setzt seine Farbe selbst, daher !important) */
+.thm-knopf.aktiv .thm-icon { color: var(--white) !important; }
+
+/* nur ein Icon */
+.thm-knopf.quadrat { padding: 0.28rem; }
+
+/* Wort im Folientext, das eine Infotafel öffnet (<InfoTafel wort>): dieselbe
+   Form wie .thm-knopf, in den Textfluss gesetzt. Die Klasse vergibt die
+   Komponente — im Export bleibt das Wort gewöhnlicher Text. */
+.info-wort {
+  padding: 0.05em 0.35em;
+  border-radius: var(--radius-icon);
+  background: var(--thm-grey-100);
+  color: var(--thm-grey-700);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.info-wort::after {
+  content: 'i';
+  display: inline-grid;
+  place-items: center;
+  width: 1.15em;
+  height: 1.15em;
+  margin-left: 0.35em;
+  border-radius: 50%;
+  background: var(--thm-green-500);
+  color: var(--white);
+  font-size: 0.72em;
+  font-weight: var(--fw-bold);
+  vertical-align: 0.12em;
+}
+
+.info-wort:hover { background: var(--thm-grey-200); }
+
+.info-wort.aktiv { background: var(--thm-green-500); color: var(--white); }
+.info-wort.aktiv::after { background: var(--white); color: var(--thm-green-600); }
+
+/* ---- Literaturverzeichnis ---- */
+.slidev-layout .thm-refs li {
+  margin-bottom: 0.6rem;
+  padding: 0.7rem 0.9rem 0.7rem 1.9rem;
+  background: var(--card-bg);
+  line-height: var(--lh-snug);
+  font-size: 0.86rem;
+}
+
+.slidev-layout .thm-refs li::before {
+  left: 0.9rem;
+  top: 1.12rem;
+}
+
+.thm-refs .ref-author {
+  font-variant: small-caps;
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+}
+
+.thm-refs .ref-url {
+  color: var(--thm-grey-400);
+  word-break: break-all;
+  font-size: 0.94em;
+}
+
+/* Kompakte Variante für Sekundärquellen: zweispaltig, Kürzel als <Cite>-Pill
+   vorneweg, damit sich die Pills der Folien hier wiederfinden lassen. */
+.slidev-layout .thm-refs.kompakt {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem var(--grid-gap);
+  padding: 0;
+}
+
+.slidev-layout .thm-refs.kompakt li {
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.62rem;
+}
+
+.slidev-layout .thm-refs.kompakt li::before { display: none; }
+
+.thm-refs .ref-key { display: block; margin-bottom: 0.15rem; }
+
+/* Eintrag, auf den ein Verweis gesprungen ist — Cyan, die Farbe der Herkunft */
+.slidev-layout .thm-refs li.quelle-aktiv {
+  background: var(--role-source-soft);
+  box-shadow: inset 0 0 0 2px var(--role-source);
+}
+
+/* Rücksprung zur Ausgangsfolie: Schaltfläche in der Form von .thm-knopf, aber
+   in Cyan gefüllt. Sie sitzt auf der oberen Kante des Eintrags, damit sie
+   auffällt, ohne das dicht gesetzte Verzeichnis zu verschieben. */
+.thm-refs .quelle-zurueck {
+  position: absolute;
+  top: 0;
+  right: 0.7rem;
+  transform: translateY(-60%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.7rem 0.22rem 0.5rem;
+  border: 0;
+  border-radius: var(--radius-icon);
+  background: var(--role-source);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--thm-grey-900) 22%, transparent);
+  animation: quelle-zurueck-puls 1.1s ease-out 0.25s 2;
+}
+
+.thm-refs .quelle-zurueck .thm-icon { color: var(--white) !important; }
+
+.thm-refs .quelle-zurueck:hover,
+.thm-refs .quelle-zurueck:focus-visible {
+  background: color-mix(in srgb, var(--role-source) 82%, var(--thm-grey-900));
+  outline: none;
+}
+
+@keyframes quelle-zurueck-puls {
+  from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--role-source) 70%, transparent); }
+  to   { box-shadow: 0 0 0 0.6rem transparent; }
+}
+
+/* ---- Dunkle Fläche mit Binärraster ---- */
+.thm-dark {
+  background-color: var(--surface-dark);
+  background-image:
+    linear-gradient(var(--grid-line-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-dark) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  background-position: -1px -1px;
+  color: var(--white);
+}
+
+.thm-dark.deep {
+  background-color: var(--surface-dark-deep);
+}
+
+.thm-dark .thm-eyebrow {
+  color: var(--thm-green-400);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+}
+
+/* ---- Klick-Aufbauten: Noch nicht gezeigte Elemente ausblenden,
+        statt sie nur transparent zu schalten. Verhindert, dass
+        halbsichtbare Karten den Rhythmus stören.               ---- */
+.slidev-vclick-target {
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.slidev-vclick-hidden {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* Im Export steht jeder Klickschritt sofort im Endzustand — für alle
+   Übergänge, auch die, die eine Folie selbst setzt. Slidev markiert den
+   Druckmodus mit `html.print` (pages/print.vue) und jede Exportseite mit
+   `.print-slide-container`. Animationen bleiben: Die Auftakte fragen den
+   Druckmodus selbst ab und zeigen dort ihren Endzustand. */
+html.print *, .print-slide-container * { transition: none !important; }
+
+/* Abbildungen, die sich über `schritt` aufbauen, tragen im Export zusätzlich
+   die Klasse `ruhig` (composables/schritt.ts). */
+.ruhig, .ruhig * { transition: none !important; }
+
+/* ---- Fußzeile (SlideFooter.vue) ---- */
+.thm-footer {
+  position: absolute;
+  left: var(--slide-pad-x);
+  right: var(--slide-pad-x);
+  bottom: 0;
+  height: var(--footer-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.55rem;
+  color: var(--thm-grey-400);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.thm-footer.dark {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* ---- Logo-Lockup ---- */
+.thm-lockup {
+  position: absolute;
+  z-index: 20;
+  height: 1.45rem;
+  width: auto;
+}
+
+.thm-lockup.top-right {
+  top: 1.55rem;
+  right: var(--slide-pad-x);
+}
+
+.thm-lockup.top-left {
+  top: 1.55rem;
+  left: var(--slide-pad-x);
+}
+
+/* ---- Arbeitsmarke `neu: true`: ein Band über der linken oberen Ecke
+        für neu erstellte Folien, die noch abgestimmt werden — keine
+        Gestaltung, fällt mit dem Frontmatter-Eintrag wieder weg ---- */
+.thm-neu {
+  position: absolute;
+  z-index: 30;
+  top: 0.75rem;
+  left: -2.1rem;
+  width: 7.5rem;
+  padding: 0.15rem 0;
+  transform: rotate(-45deg);
+  background: var(--thm-red);
+  color: var(--white);
+  font-size: 0.6rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-caps);
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+
+/* ---- Übergang `transition: view-transition`: Elemente mit gleichem
+        `view-transition-name` auf zwei Folien gleiten von der einen
+        Fassung in die andere — etwas gemächlicher als die Vorgabe des
+        Browsers, damit man ihren Weg verfolgen kann ---- */
+::view-transition-group(*) {
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
