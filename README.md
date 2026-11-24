@@ -29,7 +29,7 @@ Here are the jupyter notebooks of the chapters available in colab for direct use
 
 - 31-ML_LogisticRegression.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/03-classification/31-ML_LogisticRegression.ipynb)
 - 32-ML_DecisionTree.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/03-classification/32-ML_DecisionTree.ipynb)
-- cl1-whom-do-we-call.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/03-classification/cl1-whom-do-we-call.ipynb)
+- cl1-who-gets-the-offer.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Fjoelsak/PAP/blob/main/src/03-classification/cl1-who-gets-the-offer.ipynb)
 
 ## 04-Clustering
 
